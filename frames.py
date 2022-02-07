@@ -19,7 +19,10 @@ def dual_frame(L=10, N=4, s=0.2):
     M = np.array(M).T  # Convert from list to numpy array and transpose for column vec
     
     w = np.exp(-((0.5 / s ** 2) * t_2 ** 2 + (0.5 / s ** 2) * t_1 ** 2))  # Gaussian window
-    Mtilde = M @ np.linalg.pinv(M.T @ np.diag(np.ravel(w)) @ M)  # THE DUAL FRAME
+    #r = 0.95
+    r = 0.55
+    #r = 1e-15
+    Mtilde = M @ np.linalg.pinv(M.T @ np.diag(np.ravel(w)) @ M, rcond=r)  # THE DUAL FRAME
     #Mtilde = M @ (M.T @ np.diag(np.ravel(w)) @ M)  # No pinv
     #Mtilde = M
     return M, Mtilde, w

@@ -17,44 +17,21 @@ cap = cv2.VideoCapture(0)
 success, image = cap.read()
 # Vertical and horizontal indices
 L=10
-N=1
+N=9
 step=10
-s=0.09
+#s=0.01
+s=1
 M, Mtilde, window = dual_frame(L=L,N=N,s=s)
-
-#block_height = int(image.shape[0]/step)
-#block_width  = int(image.shape[1]/step)
-#block_height = step
-#block_width  = step
-#block_idxs = np.empty((block_width, block_height))
-
-#block_idxs = []
-#S1 = np.unique( 
-#        np.concatenate( ([i for i in range(0, (image.shape[0] - L), step)], [image.shape[0] - L])))
-#S2 = np.unique( 
-#        np.concatenate( ([i for i in range(0, (image.shape[1] - L), step)], [image.shape[1] - L])))
-#for s1 in S1:
-#    for s2 in S2:
-#        #block_idxs[s1,s2]=np.array([s1,s2])
-#        block_idxs.append(np.array([s1,s2]))
-
 block_idxs, vstack_idxs = init_blocks(image.shape, step, L)
 
-blocks_row = int(image.shape[1]/L)
-n_blocks = blocks_row**2
 
-#vstack_idxs=[]
-#for idx in range(0,n_blocks,blocks_row):
-#    vstack_idxs.append(np.arange(idx,idx+blocks_row))
-
-def stacker(block, indices):
-    return np.vstack(block[indices])
 
 #color = False
 color = True
 while cap.isOpened():
     old_image = image
     success, image = cap.read()
+    #image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     if not success:
       print("Ignoring empty camera frame.")
       # If loading a video, use 'break' instead of 'continue'.
